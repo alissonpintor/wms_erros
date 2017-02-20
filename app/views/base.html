@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{title or 'Sistema Login'}}</title>
+
+    <meta charset="utf-8"/>
+
+    <link rel="stylesheet" type="text/css" href="/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+    <!--<link rel="stylesheet" type="text/css" href="dataTables.bootstrap.min.css">-->
+    <link rel="stylesheet" type="text/css" href="/bootstrap-table.min.css">
+    <link rel="stylesheet" type="text/css" href="/jquery-ui.min.css">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <link rel="icon" href="/icone.png">
+</head>
+
+<body>
+% try:
+  % if user_logged:
+    <nav class="navbar navbar-inverse">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li class="nav-link"><a href="/admin">Admin <span class="sr-only">(current)</span></a></li>
+                <li class="nav-link"><a href="/exibir_tarefas">Tipos de tarefas <span class="sr-only">(current)</span></a></li>
+                <li class="nav-link"><a href="/exibir_erros">Tipos de erros <span class="sr-only">(current)</span></a></li>
+                <li class="nav-link"><a href="/informar_erros">Informar Erros <span class="sr-only">(current)</span></a></li>
+                <li class="nav-link"><a href="/erros_registrados">Erros cadastrados <span class="sr-only">(current)</span></a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-link"><a href="/logout">Logout <span class="sr-only">(current)</span></a></li>
+            </ul>
+        </div>
+    </nav>
+  % end
+% except Exception:
+  % pass
+% end
+    <div class="container">
+        {{!base}}
+    </div>
+
+    <script src="/jquery.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
+
+    <!-- <script src="/init-table.js" type="text/javascript" charset="utf-8"></script> -->
+    <script src="/script.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>

@@ -1,0 +1,190 @@
+/* ###### CSS HI-TECH ###### */
+body{
+  background-color: #fff;
+}
+
+.hide{
+  display: none;
+}
+
+#submodal {
+	z-index: 1080 !important;
+}
+
+#messages {
+  margin-top: 10px;
+}
+
+.v-overflow{
+  height: 400px;
+  overflow-y: scroll;
+}
+
+.fixed {
+  position: fixed;
+  clear: both;
+}
+
+/* ###### CSS INICIAL DAS TABELAS ###### */
+/*
+.mg-top{
+  margin-top: 20px
+}
+
+div.form{
+  background-color: #eee;
+  padding-bottom: 50px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.button{
+  height: 30px;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  border-radius: 1px;
+  text-align: center;
+  line-height: 30px;
+  position: absolute;;
+  right: 10px;
+  bottom: 10px;
+  cursor: pointer;
+  padding: 0 15px 0 15px;
+}
+
+.page-header{
+  border-bottom: 1px solid #ccc;
+}
+
+.button-filter{
+  height: 30px;
+  width: 30px;
+  font-size: 24px;
+  background-color: rgb(177, 225, 245);
+  border: 2px solid #17858c;
+  color: #17858c;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 30px;
+  position: fixed;;
+  left: 10px;
+  bottom: 10px;
+  cursor: pointer;
+}
+
+.box-filter{
+  height: 40px;
+  width: 50%;
+  background-color: rgb(177, 225, 245);
+  border: 1px solid #17858c;
+  color: #17858c;
+  border-radius: 3px;
+  position: fixed;
+  padding: 0 10px 0 10px;
+  left: 45px;
+  bottom: 10px;
+  display: none;
+}
+
+.fixed-table-body{
+  height: auto;
+}
+
+#messages{
+  position: fixed;
+  top:10px;
+  right: 10px;
+  width: 400px;
+  height: 90%;
+  border: 1px solid #057848;
+  border-radius: 3px;
+  background-color: #aee0cb;
+  display: none;
+}
+*/
+
+
+
+
+/* ######## ANIMACOES FEITAS USANDO CSS ######## */
+.rotate{
+  /* for firefox */
+  -moz-animation-name:rotatebox;
+  -moz-animation-duration:0.4s;
+  -moz-animation-iteration-count:1;
+      -moz-animation-fill-mode:forwards;
+
+  /* for safari & chrome */
+  -webkit-animation-name:rotatebox;
+  -webkit-animation-duration:0.4s;
+  -webkit-animation-iteration-count:1;
+  -webkit-animation-fill-mode : forwards;
+
+  animation-name:rotatebox;
+  animation-duration:0.4s;
+  animation-iteration-count:1;
+  animation-fill-mode : forwards
+}
+
+.rotatereverse{
+  /* for firefox */
+  -moz-animation-name:rotateboxreverse;
+  -moz-animation-duration:0.4s;
+  -moz-animation-iteration-count:1;
+      -moz-animation-fill-mode:forwards;
+
+  /* for safari & chrome */
+  -webkit-animation-name:rotateboxreverse;
+  -webkit-animation-duration:0.4s;
+  -webkit-animation-iteration-count:1;
+      -webkit-animation-fill-mode : forwards;
+
+  animation-name:rotateboxreverse;
+  animation-duration:0.4s;
+  animation-iteration-count:1;
+  animation-fill-mode : forwards
+}
+
+@-moz-keyframes rotatebox /*--for firefox--*/{
+
+    from{
+        -moz-transform:rotate(0deg);
+    }
+    to{
+        -moz-transform:rotate(45deg);
+    }
+
+}
+
+@-moz-keyframes rotateboxreverse /*--for firefox--*/{
+
+    from{
+        -moz-transform:rotate(45deg);
+    }
+    to{
+        -moz-transform:rotate(0deg);
+    }
+
+}
+
+@-webkit-keyframes rotatebox /*--for webkit--*/{
+
+    from{
+        -webkit-transform:rotate(0deg);
+    }
+    to{
+        -webkit-transform:rotate(45deg);
+    }
+
+}
+
+@-webkit-keyframes rotateboxreverse /*--for webkit--*/{
+
+    from{
+        -webkit-transform:rotate(45deg);
+    }
+    to{
+        -webkit-transform:rotate(0deg);
+    }
+
+}

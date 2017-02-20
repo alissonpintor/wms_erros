@@ -1,0 +1,83 @@
+% rebase('base.html', title='Produtos Cadastrados')
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="page-header">
+        <h1>Cadastrado de erros.</h1>
+      </div>
+        % if status:
+          <div id='messages' class="alert {{ status['cssClass'] }}" role="alert">{{ !status['message'] }}</div>
+        % end
+        <form action="/registrar_erro" method="post" id="erros-form">
+            <div class="form-group" id="form-onda">
+                <label class="control-label" for="id_erro">Número da onda</label>
+                <div class="row">
+                    <div class="col-xs-3">
+                    % try:
+                        <input type="text" class="form-control" name="onda" id="id_onda" placeholder="Digite aqui..." value="{{ form['id_onda'] }}"/>
+                    % except Exception:
+                        <input type="text" class="form-control" name="onda" id="id_onda" placeholder="Digite aqui..." />
+                    % end
+                    </div>
+                    <div class="col-xs-9">
+                        <input type="text" class="form-control" name="cliente" id="nome_cliente" readonly/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="form-produto">
+                <label class="control-label" for="id_produto">Código do produto</label>
+                <div class="row">
+                    <div class="col-xs-3">
+                    % try:
+                        <input type="text" class="form-control" name="id-produto" id="id_produto" placeholder="Digite aqui..." value="{{ form['id_produto'] }}" />
+                    % except Exception:
+                        <input type="text" class="form-control" name="id-produto" id="id_produto" placeholder="Digite aqui..." />
+                    % end
+                    </div>
+                    <div class="col-xs-9 ">
+                        <input type="text" class="form-control" name="descricao-produto" id="descricao_produto" readonly/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="id_produto">Colaborador</label>
+                <div class="row">
+                    <div class="col-xs-9 ">
+                        <input type="text" class="form-control" name="colaborador" id="colaborador" readonly/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="tipo_tarefa">Selecione o tipo de tarefa</label>
+              <select class="form-control" id="tipo_tarefa" name="tipo-tarefa">
+                <option></option>
+              % for t in tarefas:
+                <option value="{{t.id_tarefa}}">{{ t.descricao }}</option>
+              % end
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label" for="tipo_erro">Selecione o erro</label>
+              <select class="form-control" id="tipo_erro" name="tipo-erro" disabled>
+                <option></option>
+              % for e in erros:
+                % try:
+                  % if form['id_erro'] == str(e.id_erro):
+                    <option value="{{e.id_erro}}" selected>{{ e.descricao }}</option>
+                  % else:
+                    <option value="{{e.id_erro}}">{{ e.descricao }}</option>
+                  % end
+                % except Exception:
+                  <option value="{{e.id_erro}}">{{ e.descricao }}</option>
+                % end
+              % end
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary" id="form-button">Cadastrar</button>
+        </form>
+    </div>
+</div>
