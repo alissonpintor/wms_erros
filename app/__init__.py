@@ -14,7 +14,8 @@ import logging
 
 
 Base = declarative_base()
-engine = create_engine('sqlite:///database.db', echo=False)
+#engine = create_engine('sqlite:///database.db', echo=False)
+engine = create_engine('postgresql://alisson:stoky@localhost:5432/alisson')
 engineWMS = create_engine('oracle://fullwms:fullwms@192.168.104.4', echo=False)
 
 ###############################################################################

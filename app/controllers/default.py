@@ -134,12 +134,17 @@ def buscar_erros_registrados(db):
 	return dumps(r_json)
 
 # GERENCIAMENTO DO ERROS ######################################################
-@bottle.route('/informar_erros')
+@bottle.route('/')
 def informar_erros(db):
-	erros = db.query(Erros).all()
+
 	tarefas = db.query(Tarefas).join(Erros).all()
 
 	user_logged = not aaa.user_is_anonymous
+
+	if not user_logged:
+		erros = db.query(Erros).filter(Erros.id_tarefa == 4).all()
+	else:
+		erros = db.query(Erros).all()
 
 	return template('layout_informar_erros', status=False, erros=erros, tarefas=tarefas, user_logged=user_logged)
 
@@ -397,7 +402,7 @@ def login():
 
 @bottle.route('/logout')
 def logout():
-    aaa.logout(success_redirect='/login')
+    aaa.logout(success_redirect='/')
 
 # Admin-only pages
 
