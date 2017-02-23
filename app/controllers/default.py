@@ -141,10 +141,13 @@ def informar_erros(db):
 
 	user_logged = not aaa.user_is_anonymous
 
+	'''
 	if not user_logged:
-		erros = db.query(Erros).filter(Erros.id_tarefa == 4).all()
+		erros = db.query(Erros).filter(Erros.descricao.like('Separa%')).all()
 	else:
 		erros = db.query(Erros).all()
+	'''
+	erros = db.query(Erros).all()
 
 	return template('layout_informar_erros', status=False, erros=erros, tarefas=tarefas, user_logged=user_logged)
 
