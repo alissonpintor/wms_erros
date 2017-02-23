@@ -24,7 +24,8 @@ class WmsOnda(Base):
 
 class WmsSeparadoresTarefas(Base):
     __tablename__ = 'STOKY_COLABORADOR_POR_TAREFA'
-    id = Column('ONDA_ONDA_ID', Integer, primary_key=True)
+    id = Column('COD_TAREFA_CD', Integer, primary_key=True)
+    idOnda = Column('ONDA_ONDA_ID', Integer)
     idProduto = Column('CODIGO', String(10))
     idColaborador = Column('COD_COLAB', Integer, nullable=False)
     nomeColaborador = Column('NOME', String(45), nullable=False)

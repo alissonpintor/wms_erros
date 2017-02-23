@@ -37,6 +37,7 @@ class RegistroDeErros(Base):
 	__tablename__ = 'registro_de_erros'
 	id_registro = Column(Integer, primary_key=True)
 	id_onda = Column(Integer, nullable=False)
+	id_tarefa = Column(Integer, nullable=True)
 	cliente = Column(String(30), nullable=False)
 	id_produto = Column(String(10), nullable=False)
 	id_erro = Column(Integer(), ForeignKey('erros.id_erro'),nullable=False)

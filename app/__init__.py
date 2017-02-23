@@ -14,8 +14,8 @@ import logging
 
 
 Base = declarative_base()
-#engine = create_engine('sqlite:///database.db', echo=False)
-engine = create_engine('postgresql://alisson:stoky@localhost:5432/alisson')
+engine = create_engine('sqlite:///database.db', echo=False)
+#engine = create_engine('postgresql://alisson:stoky@localhost:5432/alisson')
 engineWMS = create_engine('oracle://fullwms:fullwms@192.168.104.4', echo=False)
 
 ###############################################################################
@@ -27,6 +27,23 @@ log = logging.getLogger(__name__)
 app = bottle.app()
 
 b = SQLiteBackend('database.db', initialize=False)
+
+def populate_backend():
+    b.connection.executescript("""
+        INSERT INTO users (username, email_addr, desc, role, hash, creation_date) VALUES
+        (
+            'admin',
+            'admin@localhost.local',
+            'admin test user',
+            'admin',
+            'cLzRnzbEwehP6ZzTREh3A4MXJyNo+TV8Hs4//EEbPbiDoo+dmNg22f2RJC282aSwgyWv/O6s3h42qrA6iHx8yfw=',
+            '2012-10-28 20:50:26.286723'
+        );
+        INSERT INTO roles (role, level) VALUES ('special', 200);
+        INSERT INTO roles (role, level) VALUES ('admin', 100);
+        INSERT INTO roles (role, level) VALUES ('editor', 60);
+        INSERT INTO roles (role, level) VALUES ('user', 50);
+    """)
 
 aaa = Cork(backend=b, email_sender='federico.ceratto@gmail.com', smtp_url='smtp://smtp.magnet.ie')
 authorize = aaa.make_auth_decorator(fail_redirect="/login", role="user")

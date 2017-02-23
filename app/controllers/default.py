@@ -154,9 +154,16 @@ def buscar_pedido(wms):
 	from bottle import response
 
 	id = request.query.get('onda')
-	pedido = wms.query(WmsOnda).filter(WmsOnda.id == id)[0]
+
+	nome = None
+	try:
+		onda = wms.query(WmsOnda).filter(WmsOnda.id == id)[0]
+		nome = onda.nomeCliente
+	except IndexError:
+		if wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.id == id)[0]:
+			nome = 'TAREFA'
 	response.content_type = 'application/json'
-	return dumps(pedido.nomeCliente)
+	return dumps(nome)
 
 @bottle.route('/buscar_produto', method="GET")
 def buscar_produto(wms):
@@ -176,7 +183,9 @@ def buscar_colaborador(wms):
 	idOnda = request.query.get('onda')
 	idProduto = request.query.get('id-produto')
 
-	colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.id == idOnda).filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
+	colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.idOnda == idOnda).filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
+	if not colaborador:
+		colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.id == idOnda).filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
 	response.content_type = 'application/json'
 	nome = str(colaborador.idColaborador) + ' - ' + colaborador.nomeColaborador
 	return dumps(nome)
