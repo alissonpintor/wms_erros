@@ -1,3 +1,31 @@
+/* ########################################################################
+  FUNCOES GERAIS
+######################################################################## */
+
+// Evento para buscar os colaboradores na tela de Cadastro de erros
+function getColaborador(){
+  if(($('#id_produto').val() != '') && ($('#tipo_tarefa').val() != '' && ($('#id_onda').val() != ''))){
+    var val01 = $('#id_onda').serialize();
+    var val02 = $('#id_produto').serialize();
+    var option = $('#tipo_tarefa').serialize();
+    var data = val01+'&'+val02+'&'+option;
+    console.log(option);
+    $.ajax({
+        type: "GET",
+        url: "/buscar_colaborador",
+        dataType: "json",
+        data: data,
+        success: function(data) {
+            $('#colaborador').val(data);
+        },
+        error: function() {
+            $('#colaborador').val('');
+            console.log("erro");
+        }
+    });
+  }
+}
+
 $(function() {
     $("#messages").delay(3000).toggle(700);
 
@@ -103,6 +131,7 @@ $(function() {
                     $(id_descricao).val(data);
                     $(id_input).val(id);
                     $(id_input).removeAttr('readonly');
+                    getColaborador();
                 },
                 error: function() {
                     $(id_descricao).val('');
@@ -114,27 +143,12 @@ $(function() {
                         'O valor informado nao foi encontrado.' +
                         '</span>'
                     )
+                    getColaborador();
                 }
             });
-
-            if(($(id_input_02).val() != '') && ($('#tipo_tarefa').val() != '')){
-              var txt2 = $(id_input_02).serialize();
-              var option = $('#tipo_tarefa').serialize();
-              var data = txt+'&'+txt2+'&'+option;
-              console.log(option);
-              $.ajax({
-                  type: "GET",
-                  url: "/buscar_colaborador",
-                  dataType: "json",
-                  data: data,
-                  success: function(data) {
-                      $('#colaborador').val(data);
-                  },
-                  error: function() {
-                      $('#colaborador').val('');
-                  }
-              });
-            }
+        }
+        else {
+          getColaborador();
         }
     }
 
@@ -166,6 +180,8 @@ $(function() {
       }else{
         $('#tipo_erro').html('');
         $('#tipo_erro').attr('disabled', 'disabled');
+        $('#colaborador').val('');
       }
+      getColaborador();
     });
 });
