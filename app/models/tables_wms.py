@@ -29,6 +29,7 @@ class WmsSeparadoresTarefas(Base):
     idProduto = Column('CODIGO', String(10))
     idColaborador = Column('COD_COLAB', Integer, nullable=False)
     nomeColaborador = Column('NOME', String(45), nullable=False)
+    idTipoTarefa = Column('TAREFAS_COD_TAREFA', Integer)
 
     def __init__(self, nomeColaborador):
         self.nomeColaborador = nomeColaborador

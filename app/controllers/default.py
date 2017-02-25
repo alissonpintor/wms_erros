@@ -179,17 +179,35 @@ def buscar_produto(wms):
 	return dumps(produto.descricao)
 
 @bottle.route('/buscar_colaborador', method="GET")
-def buscar_colaborador(wms):
+def buscar_colaborador(wms, db):
 	from json import dumps
 	from bottle import response
 
 	idOnda = request.query.get('onda')
 	idProduto = request.query.get('id-produto')
+	idTipoTarefa = request.query.get('tipo-tarefa')
 
-	colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.idOnda == idOnda).filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
+	tarefa = db.query(Tarefas).filter(Tarefas.id_tarefa == idTipoTarefa)[0].descricao
+
+	tipo_tarefa = None
+	if(tarefa.lower() == 'separacao'):
+		tipo_tarefa = (4, 7) # 4 7
+	if(tarefa.lower() == 'conferencia'):
+		tipo_tarefa = (1, 10) # 1 10
+	if(tarefa.lower() == 'ressuprimento'):
+		tipo_tarefa = (5, 16) # 5 16
+	if(tarefa.lower() == 'movimentacao'):
+		tipo_tarefa = (2, 9, 8) # 2 9 8
+
+	colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.idOnda == idOnda)\
+												  .filter(WmsSeparadoresTarefas.idTipoTarefa.in_(tipo_tarefa))\
+												  .filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
 	if not colaborador:
-		colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.id == idOnda).filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
+		colaborador = wms.query(WmsSeparadoresTarefas).filter(WmsSeparadoresTarefas.id == idOnda)\
+													  .filter(WmsSeparadoresTarefas.idTipoTarefa.in_(tipo_tarefa))\
+													  .filter(WmsSeparadoresTarefas.idProduto == idProduto).first()
 	response.content_type = 'application/json'
+	print(colaborador)
 	nome = str(colaborador.idColaborador) + ' - ' + colaborador.nomeColaborador
 	return dumps(nome)
 

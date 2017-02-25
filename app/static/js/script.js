@@ -117,10 +117,11 @@ $(function() {
                 }
             });
 
-            if($(id_input_02).val() != ''){
+            if(($(id_input_02).val() != '') && ($('#tipo_tarefa').val() != '')){
               var txt2 = $(id_input_02).serialize();
-              var data = txt+'&'+txt2
-
+              var option = $('#tipo_tarefa').serialize();
+              var data = txt+'&'+txt2+'&'+option;
+              console.log(option);
               $.ajax({
                   type: "GET",
                   url: "/buscar_colaborador",
