@@ -79,6 +79,49 @@ def getStatus(name, message=None):
 		status['cssClass'] = 'alert-danger'
 		return status
 
+# GERENCIAMENTO DO GRAFICOS ###################################################
+@bottle.route('/charts')
+@bottle.route('/charts/<option>')
+def chrats(db, option=False):
+	aaa.require(fail_redirect='/login')
+
+	if option:
+		from json import dumps
+		from bottle import response
+
+		erros = db.query(RegistroDeErros.colaborador, func.count(RegistroDeErros.id_onda).label('erros_count')).all()
+		e_json = {
+			'chart': {
+				"caption": "Monthly",
+				"xaxisname": "Colaboradores",
+				"yaxisname": "Erros",
+				"showvalues": "1",
+				"animation": "1"
+			},
+			'data': [],
+		    "trendlines": [{
+		        "line": [{
+		            "startvalue": "0",
+		            "istrendzone": "1",
+		            "valueonright": "1",
+		            "tooltext": "AYAN",
+		            "endvalue": "30",
+		            "color": "009933",
+		            "displayvalue": "Target",
+		            "showontop": "1",
+		            "thickness": "5"
+		        }]
+		    }]
+		}
+
+		for e in erros:
+			e_json['data'].append({'label': e.colaborador, 'value':e.erros_count})
+
+		response.content_type = 'application/json'
+		return dumps(e_json)
+	else:
+		user_logged = not aaa.user_is_anonymous
+		return template('layout_charts', user_logged=user_logged)
 
 # GERENCIAMENTO DO ERROS DOS FUNCIONARIOS #####################################
 @bottle.route('/erros_registrados')

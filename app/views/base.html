@@ -43,11 +43,27 @@
 
     <script src="/jquery.js" type="text/javascript" charset="utf-8"></script>
     <script src="/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/node/fusioncharts/fusioncharts.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/node/fusioncharts/themes/fusioncharts.theme.fint.js" type="text/javascript" charset="utf-8"></script>
     <script src="/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="/bootstrap-table.min.js" type="text/javascript" charset="utf-8"></script>
 
     <!-- <script src="/init-table.js" type="text/javascript" charset="utf-8"></script> -->
     <script src="/script.js" type="text/javascript" charset="utf-8"></script>
+
+    <script type="text/javascript">
+      FusionCharts.ready(function() {
+        var fusioncharts = new FusionCharts({
+            type: 'column2d',
+            renderAt: 'chartContainer',
+            width: '1024',
+            height: '500',
+            dataFormat: 'jsonurl',
+            dataSource: '/charts/alisson'
+        });
+        fusioncharts.render();
+      });
+    </script>
 </body>
 
 </html>
