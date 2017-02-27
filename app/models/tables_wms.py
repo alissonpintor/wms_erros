@@ -3,6 +3,14 @@ from sqlalchemy.orm import relationship
 from app import Base
 import datetime
 
+class WmsColaborador(Base):
+    __tablename__ = 'WMS_COLABORADORES'
+    id = Column('COD_COLAB', Integer, primary_key=True)
+    nome = Column('NOME', String(100))
+
+    def __repr__(self):
+        return 'COD.: %s - NOME: %s' % (self.id, self.nome)
+
 class WmsItems(Base):
     __tablename__ = 'ITEM'
     id = Column('ID', Integer, primary_key=True)

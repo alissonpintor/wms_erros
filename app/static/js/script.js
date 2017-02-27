@@ -16,13 +16,49 @@ function getColaborador(){
         dataType: "json",
         data: data,
         success: function(data) {
+            $('#colaborador').attr('readonly', 'readonly')
             $('#colaborador').val(data);
+            $('#colaborador').html(
+              '<option value="'+ data +'">'+data+'</option>'
+            );
         },
-        error: function() {
-            $('#colaborador').val('');
-            console.log("erro");
-        }
+        error:
+          $.ajax({
+              type: "GET",
+              url: "/colaboradores",
+              dataType: "json",
+              success: function(data) {
+                  $('#colaborador').html(
+                    '<option></option>'
+                  );
+
+                  if(data.length > 0){
+                    $(data).each(function(key, value){
+                      $('#colaborador').append(
+                        '<option value="'+value+'">'+value+'</option>'
+                      );
+                    });
+                  }
+
+                  $('#colaborador').removeAttr('readonly');
+              },
+              error: function() {
+                  console.log('');
+              }
+          })
     });
+  }
+  else{
+    var attr = $('#colaborador').attr('readonly');
+    // For some browsers, `attr` is undefined; for others,
+    // `attr` is false.  Check for both.
+    if (typeof attr == typeof undefined || attr == false) {
+        console.log(attr);
+        $('#colaborador').attr('readonly', 'readonly')
+        $('#colaborador').html(
+          '<option></option>'
+        );
+    }
   }
 }
 
@@ -115,12 +151,13 @@ $(function() {
         $(div).find('span').remove();
         $(id_descricao).val('');
         $('#colaborador').val('');
+        $(id_input).attr('placeholder', 'Digite aqui...');
 
         if ($(id_input).val() != '') {
             var txt = $(id_input).serialize();
             var id = $(id_input).val();
+            $(id_input).val('');
             $(id_input).attr('readonly', 'readonly');
-            $(id_input).val('Carregando...');
 
             $.ajax({
                 type: "GET",
@@ -131,6 +168,7 @@ $(function() {
                     $(id_descricao).val(data);
                     $(id_input).val(id);
                     $(id_input).removeAttr('readonly');
+                    $(id_input).attr('placeholder', 'Digite aqui...');
                     getColaborador();
                 },
                 error: function() {
@@ -163,7 +201,6 @@ $(function() {
             dataType: "json",
             success: function(data) {
                 $('#tipo_erro').html('');
-                console.log(data);
                 if(data.length > 0){
                   $(data).each(function(key, value){
                     $('#tipo_erro').append(

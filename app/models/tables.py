@@ -10,7 +10,7 @@ from datetime import datetime
 class Tarefas(Base):
 	__tablename__ = 'tarefas'
 	id_tarefa = Column(Integer, primary_key=True)
-	descricao = Column(String(30), nullable=False)
+	descricao = Column(String(100), nullable=False)
 
 	def __init__(self, descricao):
 		self.descricao = descricao
@@ -21,7 +21,7 @@ class Tarefas(Base):
 class Erros(Base):
 	__tablename__ = 'erros'
 	id_erro = Column(Integer, primary_key=True)
-	descricao = Column(String(30), nullable=False)
+	descricao = Column(String(100), nullable=False)
 	id_tarefa = Column(Integer(), ForeignKey('tarefas.id_tarefa'), nullable=False)
 
 	tarefa = relationship("Tarefas", backref=backref('id_erro', order_by=descricao))
@@ -38,10 +38,10 @@ class RegistroDeErros(Base):
 	id_registro = Column(Integer, primary_key=True)
 	id_onda = Column(Integer, nullable=False)
 	id_tarefa = Column(Integer, nullable=True)
-	cliente = Column(String(30), nullable=False)
+	cliente = Column(String(100), nullable=False)
 	id_produto = Column(String(10), nullable=False)
 	id_erro = Column(Integer(), ForeignKey('erros.id_erro'),nullable=False)
-	descricao_produto = Column(String(10), nullable=False)
+	descricao_produto = Column(String(100), nullable=False)
 	colaborador = Column(String(45), nullable=True)
 	data_cadastro = Column(Date(), default=datetime.now())
 

@@ -4,7 +4,7 @@
 import bcrypt
 from app import app, authorize, aaa
 from app.models.tables import Tarefas, Erros, RegistroDeErros
-from app.models.tables_wms import WmsOnda, WmsItems, WmsSeparadoresTarefas
+from app.models.tables_wms import WmsOnda, WmsItems, WmsSeparadoresTarefas, WmsColaborador
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy import func, desc
 import bottle
@@ -177,6 +177,18 @@ def buscar_produto(wms):
 	produto = wms.query(WmsItems).filter(WmsItems.idCiss == id)[0]
 	response.content_type = 'application/json'
 	return dumps(produto.descricao)
+
+@bottle.route('/colaboradores', method="GET")
+def buscar_colaborador_all(wms):
+	from json import dumps
+	from bottle import response
+
+	result = wms.query(WmsColaborador).all()
+
+	col_j = []
+	for c in result:
+		col_j.append('%d %s' % (c.id, c.nome))
+	return dumps(col_j)
 
 @bottle.route('/buscar_colaborador', method="GET")
 def buscar_colaborador(wms, db):

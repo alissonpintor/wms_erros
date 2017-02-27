@@ -44,7 +44,6 @@ def populate_backend():
         INSERT INTO roles (role, level) VALUES ('editor', 60);
         INSERT INTO roles (role, level) VALUES ('user', 50);
     """)
-
 aaa = Cork(backend=b, email_sender='federico.ceratto@gmail.com', smtp_url='smtp://smtp.magnet.ie')
 authorize = aaa.make_auth_decorator(fail_redirect="/login", role="user")
 
