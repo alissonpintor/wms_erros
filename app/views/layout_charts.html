@@ -1,2 +1,40 @@
 % rebase('base.html', title='Erros Registrados')
-<div id="chartContainer">FusionCharts XT will load here!</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+          <h1>Gráficos de Erros</h1>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="btn-group-vertical" role="group" aria-label="...">
+        <a href="/charts/por_colaborador" class="btn btn-default">Por Colaborador</a>
+        <a href="/charts/por_erro" class="btn btn-default">Por Erros</a>
+        <a href="/charts/por_erro" class="btn btn-default">Por Tarefa</a>
+      </div>
+    </div>
+
+    <div class="col-md-10">
+      <div id="chartContainer">FusionCharts XT will load here!</div>
+
+      <script src="/node/fusioncharts/fusioncharts.js" type="text/javascript" charset="utf-8"></script>
+      <script src="/node/fusioncharts/themes/fusioncharts.theme.fint.js" type="text/javascript" charset="utf-8"></script>
+      <script type="text/javascript">
+        FusionCharts.ready(function() {
+          var fusioncharts = new FusionCharts({
+              type: 'column2d',
+              renderAt: 'chartContainer',
+              width: '100%',
+              height: '500',
+              dataFormat: 'jsonurl',
+          % if search:
+              dataSource: '/charts/json/{{search}}'
+          % else:
+              dataSource: '/charts/json/por_colaborador'
+          % end
+          });
+          fusioncharts.render();
+        });
+      </script>
+    </div>
+  </div>

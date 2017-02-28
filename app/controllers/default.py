@@ -81,18 +81,28 @@ def getStatus(name, message=None):
 
 # GERENCIAMENTO DO GRAFICOS ###################################################
 @bottle.route('/charts')
-@bottle.route('/charts/<option>')
-def chrats(db, option=False):
+@bottle.route('/charts/<search>')
+@bottle.route('/charts/json/<option>')
+def chrats(db, search=False, option=False):
 	aaa.require(fail_redirect='/login')
 
 	if option:
 		from json import dumps
 		from bottle import response
 
-		erros = db.query(RegistroDeErros.colaborador, func.count(RegistroDeErros.id_onda).label('erros_count')).all()
+		erros = None
+		if option == 'por_colaborador':
+			erros = db.query(RegistroDeErros.colaborador.label('label'), func.count(RegistroDeErros.id_onda).label('count'))\
+					  .group_by(RegistroDeErros.colaborador).all()
+		if option == 'por_erro':
+			erros = db.query(RegistroDeErros.id_erro.label('label'), func.count(RegistroDeErros.id_onda).label('count'))\
+					  .group_by(RegistroDeErros.id_erro).all()
+		if option == 'por_tarefa':
+			erros = db.query(RegistroDeErros.erro.tarefa.descricao.label('label'), func.count(RegistroDeErros.id_onda).label('count'))\
+					  .group_by(RegistroDeErros.erro.tarefa.descricao).all()
 		e_json = {
 			'chart': {
-				"caption": "Monthly",
+				"caption": "Grafico de erros",
 				"xaxisname": "Colaboradores",
 				"yaxisname": "Erros",
 				"showvalues": "1",
@@ -115,13 +125,13 @@ def chrats(db, option=False):
 		}
 
 		for e in erros:
-			e_json['data'].append({'label': e.colaborador, 'value':e.erros_count})
+			e_json['data'].append({'label': e.label, 'value':e.count})
 
 		response.content_type = 'application/json'
 		return dumps(e_json)
 	else:
 		user_logged = not aaa.user_is_anonymous
-		return template('layout_charts', user_logged=user_logged)
+		return template('layout_charts', user_logged=user_logged, search=search)
 
 # GERENCIAMENTO DO ERROS DOS FUNCIONARIOS #####################################
 @bottle.route('/erros_registrados')
@@ -230,7 +240,7 @@ def buscar_colaborador_all(wms):
 
 	col_j = []
 	for c in result:
-		col_j.append('%d %s' % (c.id, c.nome))
+		col_j.append('%d - %s' % (c.id, c.nome))
 	return dumps(col_j)
 
 @bottle.route('/buscar_colaborador', method="GET")
