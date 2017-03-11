@@ -125,7 +125,7 @@ def chrats(db, search=False, option=False):
 		}
 
 		for e in erros:
-			e_json['data'].append({'label': e.label, 'value':e.count})
+			e_json['data'].append({'label': str(e.label), 'value':e.count})
 
 		response.content_type = 'application/json'
 		return dumps(e_json)
@@ -202,7 +202,7 @@ def informar_erros(db):
 	'''
 	erros = db.query(Erros).all()
 
-	return template('layout_informar_erros', status=False, erros=erros, tarefas=tarefas, user_logged=user_logged)
+	return template('layout_informar_erros', status=False, erros=erros, tarefas=tarefas, user_logged=user_logged, nome="Alisson")
 
 @bottle.route('/buscar_pedido', method="GET")
 def buscar_pedido(wms):
